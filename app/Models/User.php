@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Address as Address;
+use GrahamCampbell\ResultType\Error;
+use GrahamCampbell\ResultType\Result;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -41,4 +45,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public static function get_addresses($user_id) {
+        return json_encode(User::get_addresses($user_id));
+    }
+    
+    public static function create_address(Address $address, int $user_id): void {
+        $address->insert($user_id);
+    }
+
+    public static function update_address(Address $address, int $user_id): void {
+        $address->update($user_id);
+    }
+
+    public static function delete_address(int $address_id): void {
+        Address::delete($address_id);
+    }
+
+
+
 }
