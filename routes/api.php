@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\AddressController;
-use App\Models\Address;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/users/{userId}/addresses", [AddressController::class, "get"]);
