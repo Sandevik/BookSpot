@@ -1,64 +1,24 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+### Questions
+Discussion questions for BookSpot.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## What could be improved?
+In my opinion there are a few things that could be improved opon.
+- First of all, the application is not secured behind any session or token validation, making it open towards all users. For this, I would implement some type of token validation after login or use a session to keep the application secure.
+- Second, as I am not too used to the framework, there are bound to be easier ways to create usable models. I would research better ways to make the code more consize and along with the language and framework standards. This would make the code more readable for people more used to the framework.
+- Third, Results. In the code, the database calls are handled with try-catch blocks. These are very good to catch all possible errors. The problem with them on the other hand is that there is a possibity for them to catch alot of different errors in the same block. This could make it harder to know what caused the bug. I would try to replace try-catch blocks with Results (inspired from Rust). Instead of throwing an error if something fails, it simply returns a Result, which is an enum, containing the Error, which then can be used to handled in a specific way, making it easier to know what caused the bug. If the Result is not an error, then it would simply contain a "Success" or "Ok" enum which contains the Result value.
+- variable name convention, there seem to be somekind of mismatch in variable name convension. PHP usually uses snake_case where as laravel seem to use camelCase. I would choose one to keep consistancy thoughout the codebase.
 
-## About Laravel
+## How would you make sure each user only has access to its own addresses
+As listed before, I would firstly implement security for the api using middlewares and such. After that would be completed, I would simply make some kind of check using said middleware if the user is allowed to gather the wanted information. If not, the middleware would return a 401, else it would go on to the next() function, which then would be the rest of the route.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## A new model, company, is added. Companies can also have addresses - how would you tackle this problem?
+The tackling here would be very simple and straight forward. There are two ways I would implement this.
+- By adding a new help tabel in the database, company_addresses, identical to the user_addresses table which already exists.
+- By changing the users_addresses table to be more generic, either so that it could contain a column for company_id, or to just rename the user_id column to something more generic like "relation_id"
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Multitenancy: what if there are multiple shops using our app, and each shop has its own sets of users. Can you list a few of the problems that has to be solved.
+- Allow for many shops: Make a shop have its own "shop_id" to make it possible for many different shops
+- Make shops unique: Make relations on every table so that it would contain the source shop.
+- Create specific user relations: Make users have a relation to a certain shop or shops.
+- Allow user heirarchy: Make different shop user levels to allow admins of each shop to make their own heirarchy.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
